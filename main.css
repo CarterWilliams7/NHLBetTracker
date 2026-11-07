@@ -1,1 +1,113 @@
 
+body {
+            background-color: #0c0c0c;
+            color: #cccccc;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 14px;
+            margin: 20px;
+        }
+        .header-bar, .footer-bar { color: #00ffff; }
+        .divider-bar { color: #555555; }
+        .table-header-row { color: #ffff00; font-weight: bold; }
+
+        /* Builder Form Div Styles */
+        .builder-section {
+            margin: 12px 0;
+            padding: 10px;
+            border: 1px dashed #444444;
+            background-color: #141414;
+            max-width: 104ch;
+        }
+        .builder-row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+        }
+        .builder-sub-header {
+            color: #ffff00;
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+        .input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        input, select, button {
+            background-color: #000000;
+            color: #00ffff;
+            border: 1px solid #555555;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 14px;
+            padding: 4px 8px;
+        }
+        input:disabled {
+            color: #555555;
+            border-color: #333333;
+            background-color: #111111;
+        }
+        button {
+            cursor: pointer;
+            color: #00ff00;
+            border-color: #00ff00;
+        }
+        button:hover {
+            background-color: #003300;
+        }
+        .btn-clear {
+            color: #ff5555;
+            border-color: #ff5555;
+        }
+        .btn-remove-leg {
+            color: #ff5555;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            padding: 0 4px;
+        }
+
+        /* Autocomplete Dropdown Divs */
+        .search-results-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 34ch;
+            background-color: #1a1a1a;
+            border: 1px solid #00ffff;
+            z-index: 100;
+            max-height: 180px;
+            overflow-y: auto;
+            display: none;
+        }
+        .search-result-item {
+            padding: 5px 8px;
+            cursor: pointer;
+            border-bottom: 1px solid #2a2a2a;
+        }
+        .search-result-item:hover {
+            background-color: #004444;
+            color: #ffffff;
+        }
+
+        /* Tracker Table Divs */
+        .grid-row {
+            display: flex;
+            white-space: pre;
+            line-height: 1.6;
+            align-items: center;
+        }
+        .col-player  { width: 26ch; }
+        .col-prop    { width: 22ch; }
+        .col-current { width: 22ch; }
+        .col-status  { width: 14ch; }
+        .col-game    { width: 28ch; }
+        .col-action  { width: 6ch; }
+
+        .status-hit      { color: #00ff00; }
+        .status-upcoming { color: #888888; }
+        .status-missed   { color: #ff3333; }
+        .status-live     { color: #ffff00; }
+        .status-error    { color: #ff3333; }

@@ -4,110 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FanDuel Live Bet Slip Tracker</title>
-    <style>
-        body {
-            background-color: #0c0c0c;
-            color: #cccccc;
-            font-family: Consolas, "Courier New", monospace;
-            font-size: 14px;
-            margin: 20px;
-        }
-        .header-bar, .footer-bar { color: #00ffff; }
-        .divider-bar { color: #555555; }
-        .table-header-row { color: #ffff00; font-weight: bold; }
-
-        /* Builder Form Div Styles */
-        .builder-section {
-            margin: 12px 0;
-            padding: 10px;
-            border: 1px dashed #444444;
-            background-color: #141414;
-            max-width: 96ch;
-        }
-        .builder-row {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .input-group {
-            position: relative;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        input, select, button {
-            background-color: #000000;
-            color: #00ffff;
-            border: 1px solid #555555;
-            font-family: Consolas, "Courier New", monospace;
-            font-size: 14px;
-            padding: 4px 8px;
-        }
-        button {
-            cursor: pointer;
-            color: #00ff00;
-            border-color: #00ff00;
-        }
-        button:hover {
-            background-color: #003300;
-        }
-        .btn-clear {
-            color: #ff5555;
-            border-color: #ff5555;
-        }
-        .btn-remove-leg {
-            color: #ff5555;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            padding: 0 4px;
-        }
-
-        /* Autocomplete Dropdown Divs */
-        .search-results-dropdown {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 32ch;
-            background-color: #1a1a1a;
-            border: 1px solid #00ffff;
-            z-index: 100;
-            max-height: 180px;
-            overflow-y: auto;
-            display: none;
-        }
-        .search-result-item {
-            padding: 5px 8px;
-            cursor: pointer;
-            border-bottom: 1px solid #2a2a2a;
-        }
-        .search-result-item:hover {
-            background-color: #004444;
-            color: #ffffff;
-        }
-
-        /* Tracker Table Divs */
-        .grid-row {
-            display: flex;
-            white-space: pre;
-            line-height: 1.6;
-            align-items: center;
-        }
-        .col-player  { width: 26ch; }
-        .col-prop    { width: 20ch; }
-        .col-current { width: 20ch; }
-        .col-status  { width: 14ch; }
-        .col-game    { width: 28ch; }
-        .col-action  { width: 6ch; }
-
-        .status-hit      { color: #00ff00; }
-        .status-upcoming { color: #888888; }
-        .status-missed   { color: #ff3333; }
-        .status-live     { color: #ffff00; }
-        .status-error    { color: #ff3333; }
-    </style>
-
+    <link rel="stylesheet" href="main.css">
     <script src="tracker.js" defer></script>
 </head>
 <body>
@@ -115,18 +12,20 @@
     <div id="app-root" class="tracker-wrapper">
 
         <div id="header-container" class="header-section">
-            <div id="header-top-border" class="header-bar">===================================================================================================</div>
+            <div id="header-top-border" class="header-bar">========================================================================================================</div>
             <div id="header-info" class="header-bar">
                 <span id="header-title-text">  FANDUEL LIVE BET SLIP TRACKER (ESPN API) | Updated: </span>
                 <span id="last-updated-time">--:--:--</span>
                 <span id="refresh-rate-text"> | Refresh: 30s</span>
             </div>
-            <div id="header-bottom-border" class="header-bar">===================================================================================================</div>
+            <div id="header-bottom-border" class="header-bar">========================================================================================================</div>
         </div>
 
-        <!-- NEW: Player Search & Leg Builder Section -->
         <div id="builder-container" class="builder-section">
-            <div id="builder-controls" class="builder-row">
+            
+            <!-- SECTION 1: Player Prop Builder -->
+            <div id="player-builder-header" class="builder-sub-header">[1] ADD PLAYER PROP (SOG / G / A / PTS)</div>
+            <div id="player-builder-controls" class="builder-row">
                 
                 <div id="search-input-wrapper" class="input-group">
                     <div id="label-player" class="input-label">Player:</div>
@@ -135,8 +34,8 @@
                 </div>
 
                 <div id="target-input-wrapper" class="input-group">
-                    <div id="label-target" class="input-label">Line/Target:</div>
-                    <input type="number" id="leg-target-input" value="1" min="1" max="15" style="width: 5ch;" />
+                    <div id="label-target" class="input-label">Line:</div>
+                    <input type="number" id="leg-target-input" value="1" min="1" max="15" step="1" style="width: 6ch;" />
                 </div>
 
                 <div id="stat-select-wrapper" class="input-group">
@@ -149,27 +48,65 @@
                     </select>
                 </div>
 
-                <div id="builder-buttons-wrapper" class="input-group">
-                    <button id="add-leg-btn" type="button">[+ ADD LEG]</button>
-                    <button id="clear-slip-btn" type="button" class="btn-clear">[RESET SLIP]</button>
+                <div id="player-buttons-wrapper" class="input-group">
+                    <button id="add-player-leg-btn" type="button">[+ ADD PLAYER]</button>
                 </div>
 
             </div>
-            <div id="roster-status-bar" style="color: #888888; margin-top: 6px; font-size: 12px;">
-                Loading tonight's active NHL rosters from ESPN...
+
+            <div id="builder-divider-1" class="divider-bar" style="margin: 8px 0;">--------------------------------------------------------------------------------------------------------</div>
+
+            <!-- SECTION 2: Separate Team Moneyline & Over/Under Controls -->
+            <div id="team-builder-header" class="builder-sub-header">[2] ADD TEAM MONEYLINE OR GAME OVER/UNDER</div>
+            
+            <div id="team-builder-controls" class="builder-row">
+                <div id="team-select-wrapper" class="input-group">
+                    <div id="label-team" class="input-label">Team / Game:</div>
+                    <select id="team-select-dropdown">
+                        <option value="">Loading tonight's teams...</option>
+                    </select>
+                </div>
+
+                <div id="team-ml-button-wrapper" class="input-group">
+                    <button id="add-team-ml-btn" type="button">[+ ADD TEAM ML]</button>
+                </div>
+            </div>
+
+            <div id="ou-builder-controls" class="builder-row">
+                <div id="ou-type-wrapper" class="input-group">
+                    <div id="label-ou-type" class="input-label">Over/Under:</div>
+                    <select id="ou-type-select">
+                        <option value="OVER">OVER</option>
+                        <option value="UNDER">UNDER</option>
+                    </select>
+                </div>
+
+                <div id="ou-line-wrapper" class="input-group">
+                    <div id="label-ou-line" class="input-label">Line:</div>
+                    <input type="text" id="ou-line-input" value="6.5" style="width: 8ch;" />
+                </div>
+
+                <div id="ou-buttons-wrapper" class="input-group">
+                    <button id="add-ou-leg-btn" type="button">[+ ADD OVER/UNDER]</button>
+                    <button id="clear-slip-btn" type="button" class="btn-clear">[CLEAR SLIP]</button>
+                </div>
+            </div>
+
+            <div id="roster-status-bar" style="color: #888888; margin-top: 4px; font-size: 12px;">
+                Loading tonight's active NHL games and rosters from ESPN...
             </div>
         </div>
 
         <div id="table-header-container" class="table-header-section">
             <div id="column-headers" class="grid-row table-header-row">
-                <div id="th-player" class="col-player">PLAYER</div>
+                <div id="th-player" class="col-player">PLAYER / TEAM</div>
                 <div id="th-prop" class="col-prop">PROP</div>
                 <div id="th-current" class="col-current">CURRENT</div>
                 <div id="th-status" class="col-status">STATUS</div>
                 <div id="th-game" class="col-game">GAME / CLOCK</div>
                 <div id="th-action" class="col-action">DEL</div>
             </div>
-            <div id="header-divider" class="divider-bar">---------------------------------------------------------------------------------------------------</div>
+            <div id="header-divider" class="divider-bar">--------------------------------------------------------------------------------------------------------</div>
         </div>
 
         <div id="bets-list-container" class="bets-body-section">
@@ -177,7 +114,7 @@
         </div>
 
         <div id="footer-container" class="footer-section">
-            <div id="footer-divider" class="divider-bar">---------------------------------------------------------------------------------------------------</div>
+            <div id="footer-divider" class="divider-bar">--------------------------------------------------------------------------------------------------------</div>
             <div id="footer-stats" class="footer-bar">
                 <span id="parlay-progress-label">Parlay Progress: </span>
                 <span id="parlay-hits-count">0</span>
